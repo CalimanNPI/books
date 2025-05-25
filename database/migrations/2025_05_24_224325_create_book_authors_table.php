@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('book_authors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_author')->references('id')->on('authors');
-            $table->foreignId('ISBN')->references('ISBN ')->on('books');
+            $table->unsignedBigInteger('author_id');
+            $table->foreignId('author_id')->references('id')->on('authors')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('ISBN');
+            $table->foreignId('ISBN')->references('ISBN ')->on('books')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

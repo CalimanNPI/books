@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('lends', function (Blueprint $table) {
             $table->id();
-            $table->bigIncrements('user_id');
-            $table->string('ISBN');
 
             $table->date('loanDate');
-            $table->string('expirationDate');
-            $table->string('returnDate');
+            $table->date('expirationDate');
+            $table->date('returnDate');
             $table->string('status');
-            
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('ISBN')->references('ISBN ')->on('books');
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('ISBN');
+            $table->foreign('ISBN')->references('ISBN')->on('books')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
