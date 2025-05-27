@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('book_authors', function (Blueprint $table) {
+            $table->engine = "InnoDB";
             $table->id();
-            $table->unsignedBigInteger('author_id');
-            $table->foreignId('author_id')->references('id')->on('authors')->onDelete('cascade')->onUpdate('cascade');
             $table->string('ISBN');
-            $table->foreignId('ISBN')->references('ISBN ')->on('books')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('author_id');
+            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('ISBN')->references('ISBN')->on('books')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
