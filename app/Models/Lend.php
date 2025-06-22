@@ -10,6 +10,15 @@ class Lend extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'loanDate',
+        'expirationDate',
+        'returnDate',
+        'status',
+        'user_id',
+        'ISBN',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

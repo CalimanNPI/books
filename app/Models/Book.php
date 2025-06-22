@@ -11,6 +11,17 @@ class Book extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'ISBN',
+        'title',
+        'editorial',
+        'yearPublication',
+        'genre',
+        'numberPages',
+        'totalQuantity',
+        'availableQuantity'
+    ];
+
     public function lends(): HasMany
     {
         return $this->hasMany(Lend::class);

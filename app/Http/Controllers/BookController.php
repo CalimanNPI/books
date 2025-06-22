@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $books = Book::all();
+        return view('books.index', compact('books'));
     }
 
     /**
@@ -19,7 +22,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('books.create');
     }
 
     /**
@@ -27,38 +30,64 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validated = $request->validate([
+            'ISBN' => 'required|max:255',
+            'title' => 'required|max:255',
+            'editorial' => 'required|max:255',
+            'yearPublication' => 'required|max:255',
+            'genre' => 'required|max:255',
+            'numberPages' => 'required|numeric|max:255',
+            'totalQuantity' => 'required|numeric|max:255',
+            'availableQuantity' => 'required|numeric|max:255',
+        ]);
+
+        Book::created($request->all());
+
+        return redirect()->route('books.index')
+            ->with('success', 'Creado exitosamente.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Book $book)
     {
-        //
+        return view('books.show', compact('book'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Book $book)
     {
-        //
+        return view('books.edit', compact('book'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Book $book)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'lastname' => 'required|max:255',
+        ]);
+
+        $book->update($request->all());
+
+        return redirect()->route('books.index')
+            ->with('success', 'Actualizado exitosamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return redirect()->route('books.index')
+            ->with('success', 'Eliminado exitosamente.');
     }
 }
